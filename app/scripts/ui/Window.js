@@ -44,10 +44,12 @@ var Window = React.createClass({
     if(this.props.node.orientation === null) {
       // styleObj.flexFlow = 'row wrap';
       console.log('hello woerld');
+    } else {
+
     }
     styleObj.flexGrow = 1;
     return (
-        <div style={styleObj} onClick={this.add} >
+        <div id={this.props.node.height} style={styleObj} onClick={this.props.addWindow} >
         Window <br />
         {children}
         </div>

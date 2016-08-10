@@ -9,18 +9,22 @@ var colors = [ 'blue', 'red', 'yellow', 'purple'];
 var tree = {
   background: 'blue',
   orientation: null,
+  height: '1',
   children: [{
     background: 'red',
     orientation: 'column',
+    height: '2-1',
     children: [{
       background: 'purple',
       orientation: 'column',
+      height: '3-1',
       children: [],
     }],
   },
   {
     background: 'yellow',
     orientation: 'column',
+    height: '2-2',
     children: [],
   }],
 }
@@ -64,17 +68,22 @@ var TodoApp = React.createClass({
     }
     return panelArray;
   },
-  addPanel: function (e) {
+  addPanel: function(e) {
     var addPanel = [];
     addPanel.push(e.target.id);
     this.setState({ addPanel: addPanel });
+  },
+  addWindow: function (e) {
+    if (this.state.addPanel.length !== 0) {
+      console.log(e.target.id);
+    }
   },
   render: function() {
     var panels = this.buildPanels();
     return (
       <div>
         {panels}
-        <Window node={tree} stateStyle={this.state.style} />
+        <Window id={tree.height} node={tree} stateStyle={this.state.style} addWindow={this.addWindow} />
       </div>
     );
   }
