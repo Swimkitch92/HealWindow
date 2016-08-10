@@ -6,26 +6,20 @@ var React = window.React = require('react'),
     mountNode = document.getElementById("app");
 
 var colors = [ 'blue', 'red', 'yellow', 'purple'];
-
-/*
-  panelsRepository:{
-    panels.push(new Panel(props))'
-    panels.push(new Panel{props})'
-  }
-  }
-  panels:[]
-
-  addPanel(panel){
-
-  panels.push(panel);
-
-  render:function(){
-
-    {}
-  }
+var tree = {
+  background: 'blue',
+  orientation: 'column',
+  children: [{
+    background: 'red',
+    orientation: 'column',
+    children: [],
+  },
+  {
+    background: 'yellow',
+    orientation: 'column',
+    children: [],
+  }],
 }
-}
-*/
 
 var TodoApp = React.createClass({
   getInitialState: function() {
@@ -77,7 +71,7 @@ var TodoApp = React.createClass({
     return (
       <div>
         {panels}
-        <Window />
+        <Window node={tree}/>
       </div>
     );
   }

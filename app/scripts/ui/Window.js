@@ -20,7 +20,7 @@ var Window = React.createClass({
       return true;
     }
   },
-  
+
   addChildren: function () {
     if (this.props.isFull) {
       if (this.state.children.length < 2) {
@@ -34,7 +34,7 @@ var Window = React.createClass({
     return (
       <div>
         Window <br />
-        <Window isFull={this.isFull} />
+
       </div>
     )
   },
