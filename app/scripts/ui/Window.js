@@ -19,7 +19,7 @@ var Window = React.createClass({
     styleObj.display = 'flex';
     styleObj.flexGrow = 1;
     return (
-        <div id={this.props.node.height} style={styleObj} onClick={this.props.addWindow} >
+        <div id={this.props.node.height} style={styleObj} onClick={this.props.editWindow} >
         Window <br />
         {children}
         </div>

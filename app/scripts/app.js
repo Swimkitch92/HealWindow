@@ -28,7 +28,7 @@ var tree = {
     children: [],
   }],
 }
-
+// a function to create another instance of a window object
 function newNode (background, height) {
   var node = {};
   node.background = background;
@@ -37,7 +37,7 @@ function newNode (background, height) {
   node.children = [];
   return node;
 }
-
+// hardcoded a current height of 4 to go along with the tree data
 var TodoApp = React.createClass({
   getInitialState: function() {
     return {
@@ -56,6 +56,7 @@ var TodoApp = React.createClass({
         margin: 10,
       },
       addPanel: [],
+      currentHeight: 4,
     };
   },
   // starting panels that can be chosen to be put into the window object
@@ -80,7 +81,8 @@ var TodoApp = React.createClass({
       this.addNode(tree, e.target.id, this.state.addPanel[0]);
       this.setState({addPanel: []});
     } else {
-      this.removeNode
+      this.removeNode(tree, e.target.id);
+      this.setState({addPanel: []});
     }
   },
   // will add node to the nested object in the correct place
@@ -88,9 +90,11 @@ var TodoApp = React.createClass({
 // if node height matches and the children length has room, then add a newNode
     if (node.height === height) {
       if (node.children.length !== 2) {
-        var newHeight = Number(height[0]);
+        var newHeight = this.state.currentHeight;
         newHeight++;
+        newHeight = newHeight.toString();
         node.children.push(newNode(panel, newHeight));
+        this.setState({currentHeight: newHeight});
       }
     }
     // keep recursing through tree until there are no more children left
@@ -98,15 +102,25 @@ var TodoApp = React.createClass({
       this.addNode(node.children[i], height, panel);
     }
   },
-  removeNode: function() {
-    
+  // if a panel has not been clicked yet, and a window is clicked first, that window will
+  // be removed as long as it doesnt have children underneath it.
+  removeNode: function(node, height) {
+    for (var i = 0; i < node.children.length; i++) {
+      if( node.children[i].height === height) {
+        if (node.children[i].children.length === 0)
+        node.children.splice(i,1);
+        break;
+      } else {
+        this.removeNode(node.children[i], height);
+      }
+    }
   },
   render: function() {
     var panels = this.buildPanels();
     return (
       <div>
         {panels}
-        <Window id={tree.height} node={tree} stateStyle={this.state.style} addWindow={this.addWindow} />
+        <Window id={tree.height} node={tree} stateStyle={this.state.style} editWindow={this.editWindow} />
       </div>
     );
   }
