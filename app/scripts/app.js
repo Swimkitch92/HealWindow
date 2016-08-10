@@ -41,14 +41,8 @@ var TodoApp = React.createClass({
         display: 'flex',
         padding: 10,
         margin: 10,
-        width: '100%',
       },
-      possiblePanel: [],
-      window: {
-        orientation: 'column',
-        children:[],
-        background: 'black',
-      },
+      addPanel: [],
     };
   },
   onChange: function(e) {
@@ -66,11 +60,15 @@ var TodoApp = React.createClass({
     for( var i = 0; i < colors.length; i++) {
       var style = JSON.parse(JSON.stringify(this.state.panelStyle));
       style.background = colors[i];
-      panelArray.push(<Panel styles={style} />);
+      panelArray.push(<Panel styles={style} addPanel={this.addPanel} />);
     }
     return panelArray;
   },
-  //
+  addPanel: function (e) {
+    var addPanel = [];
+    addPanel.push(e.target.id);
+    this.setState({ addPanel: addPanel });
+  },
   render: function() {
     var panels = this.buildPanels();
     return (

@@ -47,7 +47,7 @@ var Window = React.createClass({
     }
     styleObj.flexGrow = 1;
     return (
-        <div style={styleObj} >
+        <div style={styleObj} onClick={this.add} >
         Window <br />
         {children}
         </div>
