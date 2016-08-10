@@ -13,20 +13,29 @@ var tree = {
   children: [{
     background: 'red',
     orientation: 'column',
-    height: '2-1',
+    height: '2',
     children: [{
       background: 'purple',
       orientation: 'column',
-      height: '3-1',
+      height: '4',
       children: [],
     }],
   },
   {
     background: 'yellow',
     orientation: 'column',
-    height: '2-2',
+    height: '3',
     children: [],
   }],
+}
+
+function newNode (background, height) {
+  var node = {};
+  node.background = background;
+  node.orientation = 'column';
+  node.height = height;
+  node.children = [];
+  return node;
 }
 
 var TodoApp = React.createClass({
@@ -49,15 +58,6 @@ var TodoApp = React.createClass({
       addPanel: [],
     };
   },
-  onChange: function(e) {
-    this.setState({text: e.target.value});
-  },
-  handleSubmit: function(e) {
-    e.preventDefault();
-    var nextItems = this.state.items.concat([this.state.text]);
-    var nextText = '';
-    this.setState({items: nextItems, text: nextText});
-  },
   // starting panels that can be chosen to be put into the window object
   buildPanels: function() {
     var panelArray = [];
@@ -68,15 +68,38 @@ var TodoApp = React.createClass({
     }
     return panelArray;
   },
+  // this function changes sets state to current panel that will be added to the window
   addPanel: function(e) {
     var addPanel = [];
     addPanel.push(e.target.id);
     this.setState({ addPanel: addPanel });
   },
-  addWindow: function (e) {
+  // addWindow checks to see if a panel can be added to selected window, if it is it will be set to state
+  editWindow: function (e) {
     if (this.state.addPanel.length !== 0) {
-      console.log(e.target.id);
+      this.addNode(tree, e.target.id, this.state.addPanel[0]);
+      this.setState({addPanel: []});
+    } else {
+      this.removeNode
     }
+  },
+  // will add node to the nested object in the correct place
+  addNode: function(node, height, panel) {
+// if node height matches and the children length has room, then add a newNode
+    if (node.height === height) {
+      if (node.children.length !== 2) {
+        var newHeight = Number(height[0]);
+        newHeight++;
+        node.children.push(newNode(panel, newHeight));
+      }
+    }
+    // keep recursing through tree until there are no more children left
+    for (var i = 0; i < node.children.length; i++) {
+      this.addNode(node.children[i], height, panel);
+    }
+  },
+  removeNode: function() {
+    
   },
   render: function() {
     var panels = this.buildPanels();
